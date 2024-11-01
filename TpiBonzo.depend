@@ -1,0 +1,70 @@
+# depslib dependency file v1.0
+1730163781 source:c:\users\jesil\onedrive\escritorio\tpi bonzo\tpibonzo\main.cpp
+	<iostream>
+	"rlutil.h"
+	<cstdlib>
+	<ctime>
+	"funciones.h"
+
+1730164069 c:\users\jesil\onedrive\escritorio\tpi bonzo\tpibonzo\funciones.h
+
+1730161083 c:\users\jesil\onedrive\escritorio\tpi bonzo\tpibonzo\rlutil.h
+	<iostream>
+	<string>
+	<cstdio>
+	<stdio.h>
+	<string.h>
+	<windows.h>
+	<conio.h>
+	<termios.h>
+	<unistd.h>
+	<sys/ioctl.h>
+	<sys/types.h>
+	<sys/time.h>
+
+1730327330 source:d:\tpi bonzo\tpibonzo\main.cpp
+	<iostream>
+	"rlutil.h"
+	<cstdlib>
+	<ctime>
+	"funciones.h"
+
+1730161084 d:\tpi bonzo\tpibonzo\rlutil.h
+	<iostream>
+	<string>
+	<cstdio>
+	<stdio.h>
+	<string.h>
+	<windows.h>
+	<conio.h>
+	<termios.h>
+	<unistd.h>
+	<sys/ioctl.h>
+	<sys/types.h>
+	<sys/time.h>
+
+1730327330 d:\tpi bonzo\tpibonzo\funciones.h
+
+1730420787 source:c:\users\cynti\onedrive\desktop\tpi bonzo\tpibonzo\main.cpp
+	<iostream>
+	"rlutil.h"
+	<cstdlib>
+	<ctime>
+	"funciones.h"
+
+1730161084 c:\users\cynti\onedrive\desktop\tpi bonzo\tpibonzo\rlutil.h
+	<iostream>
+	<string>
+	<cstdio>
+	<stdio.h>
+	<string.h>
+	<windows.h>
+	<conio.h>
+	<termios.h>
+	<unistd.h>
+	<sys/ioctl.h>
+	<sys/types.h>
+	<sys/time.h>
+
+1730497044 c:\users\cynti\onedrive\desktop\tpi bonzo\tpibonzo\funciones.h
+
