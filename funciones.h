@@ -69,7 +69,8 @@ void nombres_jugadores(string &jug1, string &jug2)
             cout << "POR FAVOR, INGRESE NUEVAMENTE LOS NOMBRES." << endl;
         }
 
-        if (opc !='N'|| opc!='n'&& opc !='S' || opc!='s' )   {
+        if (opc !='N'|| opc!='n'&& opc !='S' || opc!='s' )
+        {
 
             cout<<"por favor ingrese S/N"<<endl;
             system ("cls");
@@ -110,9 +111,9 @@ void jugar ()
 }
 void jugarronda(string nombreJugador, int numRonda)
 {
-    bool banderacontinuarjugando=1;
+    bool banderacontinuarjugando=true;
     string respuesta;
-    cout<<"es turno de "<<   nombreJugador<<" en la ronda: "  <<   numRonda<<endl;
+    cout<<"es turno de "<<   nombreJugador<<" en la ronda: "  <<   numRonda<<endl<<endl;
     lanzarDado ();  //llamo a lanzar dado para q m e un num del 1 al 6 aleatorio
 
     while (banderacontinuarjugando)
@@ -121,16 +122,45 @@ void jugarronda(string nombreJugador, int numRonda)
         int dados [3]  ;
         dados[0]= lanzarDado();//va  a devolver los 3 dados y los guarda
         dados[1] = lanzarDado();
-        dados[2]= lanzarDado() ;
-        cout<<" dados 1 es "<<dados[0] << " dado 2 es "<<dados[1] <<" dado3 es "<<dados[2]  << endl;
-
-        cout<<" ¿quieres seguir lanzando los dados ?"<<endl;
-        cin>>respuesta;
-        if  (respuesta == "n"){
-               banderacontinuarjugando=false;
+        dados[2]= lanzarDado();
+        cout<<" primer dado:  "<<dados[0] << " segundo dado: "<<dados[1] <<" tercer dado: "<<dados[2]  << endl<< endl;
+        int prohibido = numRonda;  // Número prohibido que es el numero de  la ronda
+        if (dados[0] == prohibido && dados[1] == prohibido && dados[2] == prohibido)
+        {
+            cout << "¡Perdiste el juego! Los tres dados mostraron el número prohibido." << endl;
+            return;
         }
-    }
+        else if ((dados[0] == prohibido && dados[1] == prohibido) ||
+                 (dados[1] == prohibido && dados[2] == prohibido) ||
+                 (dados[0] == prohibido && dados[2] == prohibido))
+        {
+            cout << "Perdiste tus puntos en esta ronda y solo podrás lanzar con dos dados en la siguiente ronda." << endl<< endl;
+            banderacontinuarjugando= false;
+        }
+        else if (dados[0] == prohibido || dados[1] == prohibido || dados[2] == prohibido)
+        {
+            cout << "Perdiste tus puntos en esta ronda." << endl<<endl;
+            banderacontinuarjugando= false;
+        }
+        else
+        {
+            int suma = dados[0] + dados[1] + dados[2];
+            cout << "Has acumulado " << suma << " puntos." << endl<<endl;
+            cout << "¿Quieres seguir jugando? (S/N): ";
+            cin >> respuesta;
+            if (respuesta == "N" || respuesta == "n")
+            {
+                banderacontinuarjugando= false;
+            }
 
+
+
+
+
+
+        }
+
+    }
 }
 
 int lanzarDado()
@@ -145,6 +175,7 @@ int determinarInicio(string &jug1, string &jug2)
 {
 
     int numero_dado = lanzarDado(); // guardo el valor del dado aleatorio dentro de la variable;
+
 
 
     if(numero_dado % 2 !=0 )
