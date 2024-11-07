@@ -45,11 +45,13 @@
 
 1730327330 d:\tpi bonzo\tpibonzo\funciones.h
 
-1730420787 source:c:\users\cynti\onedrive\desktop\tpi bonzo\tpibonzo\main.cpp
+1731015296 source:c:\users\cynti\onedrive\desktop\tpi bonzo\tpibonzo\main.cpp
 	<iostream>
 	"rlutil.h"
 	<cstdlib>
 	<ctime>
+	<Windows.h>
+	<locale.h>
 	"funciones.h"
 
 1730161084 c:\users\cynti\onedrive\desktop\tpi bonzo\tpibonzo\rlutil.h
@@ -66,5 +68,5 @@
 	<sys/types.h>
 	<sys/time.h>
 
-1730497044 c:\users\cynti\onedrive\desktop\tpi bonzo\tpibonzo\funciones.h
+1731021566 c:\users\cynti\onedrive\desktop\tpi bonzo\tpibonzo\funciones.h
 
