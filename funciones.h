@@ -12,7 +12,7 @@ void tirada_de_dado (string &jug1, string &jug2);//determinar los 3 dados
 void partida();
 void creditos();
 void jugar ();
-void jugarronda(string nombreJugador, int numRonda,int &contadorlanzamientosfinal);
+void jugarronda(string nombreJugador, int numRonda,int &contadorlanzamientosfinal,bool &jugador_1_pierdeundado,  bool &jugador_2_pierdeundado);
 int quitarleundado(int &prohibido,int &sumabonzo);
 int duplicarlospuntos(int &sumabonzo) ;
 bool confirmarSalida() ;
@@ -98,10 +98,12 @@ void jugar ()
     int jugador_inicial;
     string jug1;
     string jug2;
+    bool jugador_1_pierdeundado=false ;
+    bool jugador_2_pierdeundado=false;
     nombres_jugadores(jug1, jug2);  //llamamos a la funcion para q muestre los nombres y las guarde en las variables
     jugador_inicial=determinarInicio(jug1, jug2) ;  //a a ir a det incio y hace el calculo de quien va a empezar para no mostrar los dados inicialmente
-     int contadorlanzamientosfinal_jug1=0;//para buscar el mayor lanzamiento
-     int contadorlanzamientosfinal_jug2=0;
+    int contadorlanzamientosfinal_jug1=0;//para buscar el mayor lanzamiento
+    int contadorlanzamientosfinal_jug2=0;
 
     for (int ronda=1; ronda<=6 ; ronda++ )
     {
@@ -111,8 +113,8 @@ void jugar ()
 
             // sera void xe va aretornar puntuacion cantidad  de bonificaciones, penalizaciones de dados q iran por referencia entonces retornaria muchas cosaas
             //aca solamente se llama a jugar ronda con nombre de jugador y con num d ronda
-            jugarronda(jug1,ronda,contadorlanzamientosfinal_jug1);
-            jugarronda(jug2,ronda,contadorlanzamientosfinal_jug2 );
+            jugarronda(jug1,ronda,jugador_1_pierdeundado, jugador_2_pierdeundado);
+            jugarronda(jug2,ronda,jugador_2_pierdeundado, jugador_1_pierdeundado );
         }
         else
         {
@@ -149,7 +151,8 @@ y hacer que una vez que salio bonzo para un mismo jugador ver como hacer para  q
 // por ultimo al terinar el juego limpiar la pantalla para que no se muestre la tirada anterior
 
 
-void jugarronda(string nombreJugador, int numRonda,int &contadorlanzamientosfinal)
+void jugarronda(string nombreJugador, int numRonda,int &contadorlanzamientosfinal,bool &yoperdiundado,  bool &oponentepierdeundado )
+
 {
     bool banderacontinuarjugando=true;
 
@@ -168,18 +171,34 @@ void jugarronda(string nombreJugador, int numRonda,int &contadorlanzamientosfina
         //lanzarDado ();  //llamo a lanzar dado para q m e un num del 1 al 6 aleatorio
         int dados [3]  ;
         int opcion;
-        dados[0]= lanzarDado();//va  a devolver los 3 dados y los guarda
-        dados[1] = lanzarDado();
-        dados[2]= lanzarDado();
-        cout<<" primer dado:  "<<dados[0] << " segundo dado: "<<dados[1] <<" tercer dado: "<<dados[2]  << endl<< endl;
+
+        if(oponentepierdeundado && (dados[0]==prohibido ||dados[1]==prohibido  ||dados[2]==prohibido )
+    {
+
+        oponentepierdeundado=false;//pierde el beneficio de q oponente perdio un dado
+    }
+    cout<<" primer dado:  "<<dados[0] << " segundo dado: "<<dados[1] <<" tercer dado: "<<dados[2]  << endl<< endl;
         int prohibido = numRonda;  // Número prohibido que es el numero de  la ronda
         int contadorvecesdebonzo=0;
+        // este if es si no esta penalizado
+        if  (yoperdiundado)
+    {
 
-        if (dados[0] == dados[1] && dados[1] == dados[2] && dados [0] != prohibido&& dados [1] != prohibido&& dados [2] != prohibido)
+        dados[0]= lanzarDado();//va  a devolver los 3 dados y los guarda
+            dados[1] = lanzarDado();
+
+        }
+        else
         {
-            contadorvecesdebonzo++;
-            cout<<"obtuvo BONZO VE A DORMIR !!!" ;
-            acu_bonzo=dados[0] +dados [1] +dados [2];
+                   dados[0]= lanzarDado();//va  a devolver los 3 dados y los guarda
+        dados[1] = lanzarDado();
+        dados[2]= lanzarDado();
+         // q juegeu cn dos dados
+        if (dados[0] == dados[1] && dados[1] == dados[2] && dados [0] != prohibido&& dados [1] != prohibido&& dados [2] != prohibido)
+    {
+        contadorvecesdebonzo++;
+        cout<<"obtuvo BONZO VE A DORMIR !!!" ;
+        acu_bonzo=dados[0] +dados [1] +dados [2];
             cout <<" usted puede elegir entre las siguentes opciones :";
             cout<< "opcion 1: quitarle un dado al oponente " <<endl;
             cout<<" opcion 2: duplicar los puntos "<< endl;
@@ -187,8 +206,9 @@ void jugarronda(string nombreJugador, int numRonda,int &contadorlanzamientosfina
             switch (opcion)
             {
             case 1:
+                oponentepierdeundado=true ;
                 //  bool banderaqueseuso=0;
-                quitarleundado(prohibido,sumabonzo);
+                //quitarleundado(prohibido,sumabonzo);
                 // bool banderaqueseuso=1;
                 break;
 
@@ -217,36 +237,36 @@ void jugarronda(string nombreJugador, int numRonda,int &contadorlanzamientosfina
 
 
         if (dados[0] == prohibido && dados[1] == prohibido && dados[2] == prohibido)
-        {
-            cout << "¡Perdiste el juego! Los tres dados mostraron el número prohibido." << endl;
+    {
+        cout << "¡Perdiste el juego! Los tres dados mostraron el número prohibido." << endl;
 
-            return;  //   //el return termina con la funcion jugarronda   despues de  q mostro el mensaje de que perdio,aca los 3 dados
-            //en esa ronda fueron iguales al num prohibido  muestra que el jugador perdio y la funcion termina
+        return;  //   //el return termina con la funcion jugarronda   despues de  q mostro el mensaje de que perdio,aca los 3 dados
+        //en esa ronda fueron iguales al num prohibido  muestra que el jugador perdio y la funcion termina
 
-        }
-        /* Si aparecen dos caras con el número prohibido en la misma tirada, además
-        de perder los puntos, en la próxima ronda el jugador solo podrá lanzar con
-        dos dados.  como hacer para que solo en la proxima vuelta pueda lanzar dos dados y desp volver a tres dados */
+    }
+    /* Si aparecen dos caras con el número prohibido en la misma tirada, además
+    de perder los puntos, en la próxima ronda el jugador solo podrá lanzar con
+    dos dados.  como hacer para que solo en la proxima vuelta pueda lanzar dos dados y desp volver a tres dados */
 
-        else if ((dados[0] == prohibido && dados[1] == prohibido) ||
+    else if ((dados[0] == prohibido && dados[1] == prohibido) ||
                  (dados[1] == prohibido && dados[2] == prohibido) ||
                  (dados[0] == prohibido && dados[2] == prohibido))
-        {
+    {
 
-            cout << "Perdiste tus puntos en esta ronda ya que salieron dos caras iguales al numero prohibido y solo podrás lanzar con dos dados en la siguiente ronda." << endl<< endl;
+        cout << "Perdiste tus puntos en esta ronda ya que salieron dos caras iguales al numero prohibido y solo podrás lanzar con dos dados en la siguiente ronda." << endl<< endl;
 
-            banderacontinuarjugando= false;   // esto es que el jugador  perdio y se  informa que solo podrá lanzar con dos dados en la prox ronda
-        }
-        else if (dados[0] == prohibido && dados[1] == prohibido && dados[2] == prohibido)
-        {
-            cout << "Perdiste tus puntos en esta ronda ya que salieron tres caras iguales al numero prohibido."
-                 // "el jugador pierde quedando su puntaje en cero" , habria q resolver como volver los puntos a cero
-                 << endl<<endl;
-            banderacontinuarjugando= false;
-        }
-        else
-        {
-            int suma = dados[0] + dados[1] + dados[2];
+        banderacontinuarjugando= false;   // esto es que el jugador  perdio y se  informa que solo podrá lanzar con dos dados en la prox ronda
+    }
+    else if (dados[0] == prohibido && dados[1] == prohibido && dados[2] == prohibido)
+    {
+        cout << "Perdiste tus puntos en esta ronda ya que salieron tres caras iguales al numero prohibido."
+             // "el jugador pierde quedando su puntaje en cero" , habria q resolver como volver los puntos a cero
+             << endl<<endl;
+        banderacontinuarjugando= false;
+    }
+    else
+    {
+        int suma = dados[0] + dados[1] + dados[2];
             cout << "Puntos de la ronda :" << suma << endl<<endl;
             cout << "lanzamientos: " << contadorlanzamiento<< endl << endl ;
             cout << "¿Quieres seguir jugando? (S/N): ";
@@ -261,8 +281,10 @@ void jugarronda(string nombreJugador, int numRonda,int &contadorlanzamientosfina
 
     }
 
+    yoperdiundado=false;
+
     contadorlanzamientosfinal+=contadorlanzamiento;
-    cout<<" contador final de cada uno"<<contadorlanzamientosfinal<< endl;
+    cout<<" contador final de cada uno"<<contadorlanzamientosfinal<< endl;      }
 }
 
 

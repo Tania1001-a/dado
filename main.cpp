@@ -40,13 +40,9 @@ int main()
         case 1:
             system("cls");
             cout << "selecciono la opcion JUGAR" << endl;
-            //nombres_jugadores(jug1,jug2); // hacer el ingreso de los nombres
 
-            // hacer funcion jugar
             jugar();
 
-            //determinarInicio(jug1,jug2);
-            //tirada_de_dado(jug1, jug2);
 
             break;
         case 2:
